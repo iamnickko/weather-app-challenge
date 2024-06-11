@@ -1,18 +1,26 @@
 import { useState } from "react";
 import PageTitle from "./PageTitle";
+import { submitAuthForm } from "../utils/authHelper";
 
 const AuthForm = () => {
   const [formInput, setFormInput] = useState({
-    nameInput: "",
-    emailInput: "",
-    passwordInput: "",
+    name: "",
+    email: "",
+    password: "",
   });
+  // const [btnDisabled, setBtnDisabled] = useState(true);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    submitAuthForm(formInput);
+    setFormInput({ name: "", email: "", password: "" });
+  };
 
   return (
     <div className="row justify-content-center">
       <div className="col-7">
         <PageTitle title={"Register / Login"} />
-        <form className="mb-5" action="">
+        <form onSubmit={handleFormSubmit} className="mb-5" action="">
           <div className="mb-3">
             <input
               className="form-control"
@@ -21,9 +29,9 @@ const AuthForm = () => {
               id="name"
               placeholder="your name"
               onChange={(e) =>
-                setFormInput({ ...formInput, nameInput: e.target.value })
+                setFormInput({ ...formInput, name: e.target.value })
               }
-              value={formInput.nameInput}
+              value={formInput.name}
             />
           </div>
           <div className="mb-3">
@@ -35,9 +43,9 @@ const AuthForm = () => {
               placeholder="email@domain.com"
               required
               onChange={(e) =>
-                setFormInput({ ...formInput, emailInput: e.target.value })
+                setFormInput({ ...formInput, email: e.target.value })
               }
-              value={formInput.emailInput}
+              value={formInput.email}
             />
           </div>
           <div className="mb-3">
@@ -49,13 +57,17 @@ const AuthForm = () => {
               placeholder="password"
               required
               onChange={(e) =>
-                setFormInput({ ...formInput, passwordInput: e.target.value })
+                setFormInput({ ...formInput, password: e.target.value })
               }
-              value={formInput.passwordInput}
+              value={formInput.password}
             />
           </div>
 
-          <button type="submit" className="btn btn-primary">
+          <button
+            type="submit"
+            className="btn btn-primary"
+            // disabled={btnDisabled}
+          >
             Register / Login
           </button>
         </form>
