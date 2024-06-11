@@ -1,6 +1,13 @@
+import { useState } from "react";
 import PageTitle from "./PageTitle";
 
 const AuthForm = () => {
+  const [formInput, setFormInput] = useState({
+    nameInput: "",
+    emailInput: "",
+    passwordInput: "",
+  });
+
   return (
     <div className="row justify-content-center">
       <div className="col-7">
@@ -12,7 +19,11 @@ const AuthForm = () => {
               type="text"
               name="name"
               id="name"
-              placeholder="Your Name"
+              placeholder="your name"
+              onChange={(e) =>
+                setFormInput({ ...formInput, nameInput: e.target.value })
+              }
+              value={formInput.nameInput}
             />
           </div>
           <div className="mb-3">
@@ -23,6 +34,10 @@ const AuthForm = () => {
               id="email"
               placeholder="email@domain.com"
               required
+              onChange={(e) =>
+                setFormInput({ ...formInput, emailInput: e.target.value })
+              }
+              value={formInput.emailInput}
             />
           </div>
           <div className="mb-3">
@@ -33,6 +48,10 @@ const AuthForm = () => {
               id="password"
               placeholder="password"
               required
+              onChange={(e) =>
+                setFormInput({ ...formInput, passwordInput: e.target.value })
+              }
+              value={formInput.passwordInput}
             />
           </div>
 
