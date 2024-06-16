@@ -2,7 +2,7 @@ import BackgroundWrapper from "../components/BackgroundWrapper";
 import FavouriteLocation from "../components/FavouriteLocation";
 import PageTitle from "../components/PageTitle";
 
-const SavedLocations = () => {
+const SavedLocations = ({ locationList, setWeatherData }) => {
   return (
     <BackgroundWrapper>
       <PageTitle title={"Telling you about..."} />
@@ -14,23 +14,16 @@ const SavedLocations = () => {
         </p>
         <p>Click name to view info</p>
       </div>
+
       <div className="row align-items-middle">
-        <FavouriteLocation locationName={"Location component Name"} />
-        <div className="col-12 col-sm-6 col-md-4">
-          <p>
-            <i className="bi bi-bookmark-star-fill"></i> Location 1 Name
-          </p>
-        </div>
-        <div className="col-12 col-sm-6 col-md-4">
-          <p>
-            <i className="bi bi-bookmark-star-fill"></i> Location 1 Name
-          </p>
-        </div>
-        <div className="col-12 col-sm-6 col-md-4">
-          <p>
-            <i className="bi bi-bookmark-star-fill"></i> Location 1 Name
-          </p>
-        </div>
+        {locationList &&
+          locationList.map((location, index) => (
+            <FavouriteLocation
+              key={index}
+              location={location}
+              setWeatherData={setWeatherData}
+            />
+          ))}
       </div>
     </BackgroundWrapper>
   );
