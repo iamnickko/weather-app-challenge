@@ -9,7 +9,7 @@ const SearchForm = ({ setWeatherData }) => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     await searchForWeather(searchInput, setWeatherData);
-    navigate("/location");
+    navigate(`/location`);
   };
 
   return (

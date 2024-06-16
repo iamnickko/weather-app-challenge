@@ -1,12 +1,22 @@
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { logout } from "../utils/auth.service";
+import { searchForWeather } from "../utils/location.service";
+import { useState } from "react";
 
-const Header = ({ isLoggedIn, setIsLoggedIn }) => {
+const Header = ({ isLoggedIn, locationList, setWeatherData }) => {
+  const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
-  const onClickHandler = () => {
+  const onClickLogoutHandler = () => {
     logout();
     navigate("/");
   };
+
+  const onSubmitFormHandler = async (e) => {
+    e.preventDefault();
+    await searchForWeather(searchInput, setWeatherData);
+    navigate("/location");
+  };
+
   return (
     <header>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -56,21 +66,32 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
                   <li>
                     <hr className="dropdown-divider" />
                   </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
+                  {locationList &&
+                    locationList.map((location) => (
+                      <li key={location.id}>
+                        <p
+                          className="dropdown-item make-cursor"
+                          onClick={async () => {
+                            await searchForWeather(
+                              location.name,
+                              setWeatherData
+                            );
+                            navigate("/location");
+                          }}
+                        >
+                          {location.name}
+                        </p>
+                      </li>
+                    ))}
                 </ul>
               </li>
               {isLoggedIn && (
                 <li className="nav-item">
-                  <Link className="nav-link" to="/" onClick={onClickHandler}>
+                  <Link
+                    className="nav-link"
+                    to="/"
+                    onClick={onClickLogoutHandler}
+                  >
                     Logout
                   </Link>
                 </li>
@@ -90,12 +111,18 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
                 </>
               )}
             </ul>
-            <form className="d-flex" role="search">
+            <form
+              className="d-flex"
+              role="search"
+              onSubmit={onSubmitFormHandler}
+            >
               <input
                 className="form-control me-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                onChange={(e) => setSearchInput(e.target.value)}
+                value={searchInput}
               />
               <button className="btn btn-outline-success" type="submit">
                 Search

@@ -14,16 +14,20 @@ import { checkForLocations } from "./utils/location.service";
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [weatherData, setWeatherData] = useState({});
-  const [locationList, setLocationList] = useState([]);
+  const [locationList, setLocationList] = useState();
 
   useEffect(() => {
     checkForToken(setIsLoggedIn);
     checkForLocations(setLocationList);
-    console.log(locationList);
   }, []);
+
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <Header
+        isLoggedIn={isLoggedIn}
+        locationList={locationList}
+        setWeatherData={setWeatherData}
+      />
 
       <Routes>
         <Route path="/" element={<Home setWeatherData={setWeatherData} />} />
@@ -33,8 +37,12 @@ const App = () => {
         />
         <Route
           path="/savedLocations"
-          element={<SavedLocations />}
-          locationList={locationList}
+          element={
+            <SavedLocations
+              locationList={locationList}
+              setWeatherData={setWeatherData}
+            />
+          }
         />
         <Route path="/auth/register" element={<Auth mode={"Register"} />} />
         <Route
@@ -43,7 +51,6 @@ const App = () => {
         />
         <Route path="*" element={<Error404 />} />
       </Routes>
-
       <Footer />
     </>
   );
