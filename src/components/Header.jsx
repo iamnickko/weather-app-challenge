@@ -1,6 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { logout } from "../utils/auth.service";
 
-const Header = () => {
+const Header = ({ isLoggedIn, setIsLoggedIn }) => {
+  const navigate = useNavigate();
+  const onClickHandler = () => {
+    logout();
+    navigate("/");
+  };
   return (
     <header>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -8,7 +14,7 @@ const Header = () => {
           <NavLink to="/" className="nav-link">
             <img
               src="src/assets/logoipsum-332.svg"
-              alt="Bootstrap"
+              alt="logo icon"
               width="30"
               height="24"
             />
@@ -62,6 +68,27 @@ const Header = () => {
                   </li>
                 </ul>
               </li>
+              {isLoggedIn && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/" onClick={onClickHandler}>
+                    Logout
+                  </Link>
+                </li>
+              )}
+              {!isLoggedIn && (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/auth/register">
+                      Register
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/auth/login">
+                      Login
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
             <form className="d-flex" role="search">
               <input

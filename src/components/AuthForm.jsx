@@ -1,35 +1,43 @@
 import { useEffect, useState } from "react";
 import PageTitle from "./PageTitle";
-import { submitAuthForm } from "../utils/auth.service";
+import { loginAuthForm, registerAuthForm } from "../utils/auth.service";
+import { useNavigate } from "react-router-dom";
 
-const AuthForm = () => {
+const AuthForm = ({ mode, isLoggedIn, setIsLoggedIn }) => {
+  const navigate = useNavigate();
   const [formInput, setFormInput] = useState({
-    name: "",
     email: "",
     password: "",
   });
   const [formErrors, setFormErrors] = useState({
-    name: false,
-    email: false,
-    password: false,
+    email: "",
+    password: "",
   });
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [success, setSuccess] = useState("");
   const [displayError, setDisplayError] = useState("");
 
   useEffect(() => {
-    if (formInput.name && formInput.email && formInput.password) {
+    if (formInput.email && formInput.password) {
       setBtnDisabled(false);
     }
-  }, [formInput.name, formInput.email, formInput.password]);
+  }, [formInput.email, formInput.password]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const errors = validateSignUpForm(formInput);
-    if (!errors.name && !errors.email && !errors.password) {
+    const errors = validateAuthForm(formInput);
+    if (!errors.email && !errors.password) {
       try {
-        await submitAuthForm(formInput);
-        setSuccess("Submission Success!");
+        if (mode === "Register") {
+          await registerAuthForm(formInput);
+          setSuccess("Submission Success");
+          navigate("/auth/login");
+          setFormInput({ email: "", password: "" });
+        }
+        if (mode === "Login") {
+          await loginAuthForm(formInput, setIsLoggedIn);
+          navigate("/savedLocations");
+        }
       } catch (error) {
         setDisplayError(error.message);
       }
@@ -38,12 +46,12 @@ const AuthForm = () => {
     }
   };
 
-  const validateSignUpForm = ({ name, email, password }) => {
+  const validateAuthForm = ({ email, password }) => {
+    setFormErrors({});
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;
     const newFormErrors = { ...formErrors };
-    newFormErrors.name = name.length > 1 ? "" : "Name is invalid.";
     newFormErrors.email = emailRegex.test(email) ? "" : "Email is invalid.";
     newFormErrors.password = passwordRegex.test(password)
       ? ""
@@ -54,26 +62,8 @@ const AuthForm = () => {
   return (
     <div className="row justify-content-center">
       <div className="col-7">
-        <PageTitle title={"Register / Login"} />
-        <form onSubmit={handleFormSubmit} className="mb-5" action="">
-          <div className="mb-3">
-            <input
-              className="form-control mb-1"
-              type="text"
-              name="name"
-              id="name"
-              placeholder="your name"
-              onChange={(e) =>
-                setFormInput({ ...formInput, name: e.target.value })
-              }
-              value={formInput.name}
-            />
-            {formErrors.name && (
-              <div className="alert alert-danger" role="alert">
-                {formErrors.name}
-              </div>
-            )}
-          </div>
+        <PageTitle title={`${mode}`} />
+        <form onSubmit={handleFormSubmit} className="mb-5">
           <div className="mb-3">
             <input
               className="form-control mb-1"
@@ -118,7 +108,7 @@ const AuthForm = () => {
             className="btn btn-primary mb-3"
             disabled={btnDisabled}
           >
-            Register / Login
+            {mode}
           </button>
           {success && (
             <div className="alert alert-success" role="alert">
