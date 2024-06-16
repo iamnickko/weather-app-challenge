@@ -1,10 +1,18 @@
-const WeatherToday = ({ weatherData }) => {
-  console.log(weatherData);
+import { addLocation } from "../utils/location.service.js";
+
+const WeatherToday = ({ weatherData, cityDetails }) => {
+  const { coord, name, id } = cityDetails;
+  const detailsToSave = { coord, name, id };
+  console.log(detailsToSave);
+
+  const onClickAddFavouriteHandler = async () => {
+    await addLocation(detailsToSave);
+  };
   return (
     <>
-      {/* <h2>{weatherData.city.name}</h2> */}
+      <h2>{cityDetails.name}</h2>
       <h3>Today's Weather:</h3>
-      <p>
+      <p className="make-cursor" onClick={onClickAddFavouriteHandler}>
         <i className="bi bi-bookmark-star"></i> Click to add to favourites
       </p>
       <div className="row">
