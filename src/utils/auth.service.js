@@ -16,16 +16,16 @@ export const registerAuthForm = async (formInput) => {
   }
 };
 
-export const loginAuthForm = async (formInput, setIsLoggedIn) => {
+export const loginAuthForm = async (formInput) => {
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_APP_SERVER}/auth/login`,
       { email: formInput.email, password: formInput.password }
     );
     saveToken(response.data.accessToken);
+    saveUserEmail(response.data.email);
     saveUserLocations(response.data.savedLocations);
     if (response.data.accessToken) {
-      setIsLoggedIn(true);
       return response.data;
     }
   } catch (error) {
@@ -38,7 +38,11 @@ export const saveToken = (accessToken) => {
 };
 
 export const saveUserLocations = (userLocations) => {
-  localStorage.setItem("userLocations", userLocations);
+  localStorage.setItem("userLocations", JSON.stringify(userLocations));
+};
+
+export const saveUserEmail = (userEmail) => {
+  localStorage.setItem("userEmail", userEmail);
 };
 
 export const checkForToken = (setIsLoggedIn) => {

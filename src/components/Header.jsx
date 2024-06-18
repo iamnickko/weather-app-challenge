@@ -50,7 +50,7 @@ const Header = ({ isLoggedIn, locationList, setWeatherData }) => {
               <li className="nav-item dropdown">
                 <NavLink
                   className="nav-link dropdown-toggle"
-                  to="savedLocations"
+                  to="/savedLocations"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
@@ -99,12 +99,12 @@ const Header = ({ isLoggedIn, locationList, setWeatherData }) => {
               {!isLoggedIn && (
                 <>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/auth/register">
+                    <Link className="nav-link" to="/register">
                       Register
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/auth/login">
+                    <Link className="nav-link" to="/login">
                       Login
                     </Link>
                   </li>

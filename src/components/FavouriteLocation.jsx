@@ -9,7 +9,7 @@ const FavouriteLocation = ({ location, setWeatherData }) => {
   };
 
   const onClickRemoveFavouriteHandler = async () => {
-    await removeLocations(location);
+    await removeLocations(location.id);
   };
   return (
     <>

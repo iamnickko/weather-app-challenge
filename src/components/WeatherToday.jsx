@@ -3,7 +3,6 @@ import { addLocation } from "../utils/location.service.js";
 const WeatherToday = ({ weatherData, cityDetails }) => {
   const { coord, name, id } = cityDetails;
   const detailsToSave = { coord, name, id };
-  console.log(detailsToSave);
 
   const onClickAddFavouriteHandler = async () => {
     await addLocation(detailsToSave);

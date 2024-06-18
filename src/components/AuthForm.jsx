@@ -31,12 +31,13 @@ const AuthForm = ({ mode, isLoggedIn, setIsLoggedIn }) => {
         if (mode === "Register") {
           await registerAuthForm(formInput);
           setSuccess("Submission Success");
-          navigate("/auth/login");
+          navigate("/login");
           setFormInput({ email: "", password: "" });
         }
         if (mode === "Login") {
-          await loginAuthForm(formInput, setIsLoggedIn);
+          await loginAuthForm(formInput);
           navigate("/savedLocations");
+          setIsLoggedIn(true);
         }
       } catch (error) {
         setDisplayError(error.message);

@@ -44,9 +44,9 @@ const App = () => {
             />
           }
         />
-        <Route path="/auth/register" element={<Auth mode={"Register"} />} />
+        <Route path="/register" element={<Auth mode={"Register"} />} />
         <Route
-          path="/auth/login"
+          path="/login"
           element={<Auth mode={"Login"} isLoggedIn={isLoggedIn} />}
         />
         <Route path="*" element={<Error404 />} />

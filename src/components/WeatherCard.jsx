@@ -1,5 +1,4 @@
 const WeatherCard = (props) => {
-  console.log(props);
   return (
     <div className="card text-bg-dark">
       <img

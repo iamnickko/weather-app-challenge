@@ -1,9 +1,10 @@
 import axios from "axios";
 import dummyWeatherData from "../../data/dummyWeatherData.json";
+import { useNavigate } from "react-router-dom";
 
 export const searchForWeather = async (location, setWeatherData) => {
   const response = await axios.get(
-    `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=6f1a3c4fb4dfce3690facf8b6e72c50c`
+    `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=6f1a3c4fb4dfce3690facf8b6e72c50c&units=metric`
   );
   setWeatherData(response.data);
   //   setWeatherData(dummyWeatherData.dublin);
@@ -47,18 +48,52 @@ const getDayIndices = (data) => {
 };
 
 export const checkForLocations = (setLocationList) => {
-  const userDetails = localStorage.getItem("userDetails");
-  if (!userDetails) return;
-  const locationList = userDetails.savedLocations;
-  console.log(locationList);
-  setLocationList(locationList);
+  const userLocations = localStorage.getItem("userLocations");
+  if (!userLocations) return;
+  setLocationList(JSON.parse(userLocations));
 };
 
-// export const addLocation = async (location) => {};
-// console.log(location);
-// const response = await axios.put(
-//   `${import.meta.env.VITE_APP_SERVER}/savedLocations`,
-//   {
-//     ...location,
-//   }
-// );
+export const addLocation = async (location) => {
+  const token = localStorage.getItem("accessToken");
+  const email = localStorage.getItem("userEmail");
+  const response = await axios.put(
+    `${import.meta.env.VITE_APP_SERVER}/savedLocations`,
+    {
+      ...location,
+      email,
+    },
+    {
+      headers: {
+        "X-Access-Token": token,
+      },
+    }
+  );
+  localStorage.setItem(
+    "userLocations",
+    JSON.stringify(response.data.savedLocations)
+  );
+  return response.data;
+};
+
+export const removeLocations = async (locationId) => {
+  const token = localStorage.getItem("accessToken");
+  const email = localStorage.getItem("userEmail");
+
+  const response = await axios.put(
+    `${import.meta.env.VITE_APP_SERVER}/removeLocation`,
+    {
+      id: locationId,
+      email,
+    },
+    {
+      headers: {
+        "X-Access-Token": token,
+      },
+    }
+  );
+  localStorage.setItem(
+    "userLocations",
+    JSON.stringify(response.data.savedLocations)
+  );
+  return response.data;
+};
