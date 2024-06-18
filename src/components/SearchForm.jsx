@@ -28,6 +28,7 @@ const SearchForm = ({ setWeatherData }) => {
             className="form-control"
             type="text"
             name="location"
+            aria-label="location"
             id="location"
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Enter location"

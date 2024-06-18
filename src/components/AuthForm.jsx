@@ -71,6 +71,7 @@ const AuthForm = ({ mode, isLoggedIn, setIsLoggedIn }) => {
               type="email"
               name="email"
               id="email"
+              aria-label="email"
               placeholder="email@domain.com"
               onChange={(e) =>
                 setFormInput({ ...formInput, email: e.target.value })

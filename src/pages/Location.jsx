@@ -5,6 +5,7 @@ import WeatherToday from "../components/WeatherToday";
 import { updateState } from "../utils/location.service";
 
 const Location = ({ weatherData }) => {
+  console.log(weatherData);
   const cityDetails = weatherData.city;
   const days = updateState(weatherData);
 
