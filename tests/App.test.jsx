@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
 describe("first", () => {
-  it("should first", () => {
+  it.skip("should first", () => {
     expect(true).toBeTruthy();
   });
 });

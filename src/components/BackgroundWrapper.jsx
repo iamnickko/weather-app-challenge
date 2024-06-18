@@ -6,7 +6,7 @@ const BackgroundWrapper = ({ children }) => {
         height: "900px",
         opacity: "85%",
       }}
-      className="container img-fluid text-center"
+      className="container img-fluid text-center backgroundWrapper"
     >
       {children}
     </div>
