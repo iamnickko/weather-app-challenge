@@ -5,7 +5,6 @@ import { afterEach } from "vitest";
 import dummyWeatherData from "../data/dummyWeatherData.json";
 
 const { dublin } = dummyWeatherData;
-console.log(dublin);
 
 describe("App routing tests", () => {
   afterEach(() => {
