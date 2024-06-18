@@ -1,6 +1,4 @@
 import axios from "axios";
-import dummyWeatherData from "../../data/dummyWeatherData.json";
-import { useNavigate } from "react-router-dom";
 
 export const searchForWeather = async (location, setWeatherData) => {
   const response = await axios.get(
