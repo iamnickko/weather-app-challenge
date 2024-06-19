@@ -49,6 +49,7 @@ export const checkForLocations = (setLocationList) => {
   const userLocations = localStorage.getItem("userLocations");
   if (!userLocations) return;
   setLocationList(JSON.parse(userLocations));
+  // return userLocations;
 };
 
 export const addLocation = async (location) => {

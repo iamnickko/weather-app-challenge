@@ -3,11 +3,17 @@ import { logout } from "../utils/auth.service";
 import { searchForWeather } from "../utils/location.service";
 import { useState } from "react";
 
-const Header = ({ isLoggedIn, locationList, setWeatherData }) => {
+const Header = ({
+  isLoggedIn,
+  locationList,
+  setWeatherData,
+  setIsLoggedIn,
+}) => {
   const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
   const onClickLogoutHandler = () => {
     logout();
+    setIsLoggedIn(false);
     navigate("/");
   };
 

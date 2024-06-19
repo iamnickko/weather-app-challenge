@@ -1,7 +1,11 @@
-import { removeLocations, searchForWeather } from "../utils/location.service";
+import {
+  checkForLocations,
+  removeLocations,
+  searchForWeather,
+} from "../utils/location.service";
 import { useNavigate } from "react-router-dom";
 
-const FavouriteLocation = ({ location, setWeatherData }) => {
+const FavouriteLocation = ({ location, setLocationList, setWeatherData }) => {
   const navigate = useNavigate();
   const onClickLocationNameHandler = async () => {
     await searchForWeather(location.name, setWeatherData);
@@ -10,6 +14,8 @@ const FavouriteLocation = ({ location, setWeatherData }) => {
 
   const onClickRemoveFavouriteHandler = async () => {
     await removeLocations(location.id);
+    // checkForLocations(setLocationList);
+    // setLocationList(checkForLocations(setLocationList));
   };
   return (
     <>

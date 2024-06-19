@@ -25,6 +25,7 @@ const App = () => {
     <>
       <Header
         isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
         locationList={locationList}
         setWeatherData={setWeatherData}
       />

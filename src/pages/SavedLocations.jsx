@@ -2,7 +2,7 @@ import BackgroundWrapper from "../components/BackgroundWrapper";
 import FavouriteLocation from "../components/FavouriteLocation";
 import PageTitle from "../components/PageTitle";
 
-const SavedLocations = ({ locationList, setWeatherData }) => {
+const SavedLocations = ({ locationList, setLocationList, setWeatherData }) => {
   return (
     <BackgroundWrapper>
       <PageTitle title={"Telling you about..."} />
@@ -21,6 +21,7 @@ const SavedLocations = ({ locationList, setWeatherData }) => {
             <FavouriteLocation
               key={index}
               location={location}
+              setLocationList={setLocationList}
               setWeatherData={setWeatherData}
             />
           ))}
